@@ -1,16 +1,15 @@
 package main
 
 import (
-	"fmt"
 	"io/ioutil"
 	"log"
 	"net/http"
-	//"os"
 	"encoding/json"
+	"fmt"
 )
 
 func main() {
-	url := "https://api.github.com/repos/teyushen/oauth2/stargazers"
+	url := "https://api.github.com/users/teyushen/starred"
 	basicAuth(url)
 	//fmt.Printf("%s", basicAuth(url))
 }
@@ -18,7 +17,7 @@ func main() {
 func basicAuth(url string) string {
 	client := &http.Client{}
 	req, err := http.NewRequest("GET", url, nil)
-	req.Header.Set("Authorization", "token e229b32f20ae12c500edfee36dd2d69b81b49b6b")
+	req.Header.Set("Authorization", "token 50c93442b8b519adfda8586a8f6a9418f4fac967")
 	resp, err := client.Do(req)
 	if err != nil {
 		log.Fatal(err)
@@ -28,26 +27,27 @@ func basicAuth(url string) string {
 	//fmt.Printf("%v", s)
 
 	j := `[{"permissions":{
-		      		"admin": "true",
+		      		"admin": true,
 		      		"push": "true",
 			        "pull": "true"
 		    	}
 		    }]`
-	x := make(map[string]interface{})
+	//x := make(map[string]interface{})
 
-	json.Unmarshal([]byte(j), &x)
-
-	//urlsJson, _ := json.Marshal(j)
+	//fmt.Println(string(bodyText))
+	//json.Unmarshal([]byte(j), &x)
+	//urlsJson, _ := json.Marshal(s)
 	//fmt.Print(string(urlsJson))
 
-	//fmt.Printf("%v\n", string(j[0]))
-	fmt.Printf("%v\n", x)
-	text := `{"people": [{"craft": "ISS", "name": "Sergey Rizhikov"}, {"craft": "ISS", "name": "Andrey Borisenko"}, {"craft": "ISS", "name": "Shane Kimbrough"}, {"craft": "ISS", "name": "Oleg Novitskiy"}, {"craft": "ISS", "name": "Thomas Pesquet"}, {"craft": "ISS", "name": "Peggy Whitson"}], "message": "success", "number": 6}`
-	textBytes := []byte(text)
+	arr := make([]Station,0)
+	fmt.Print(len(arr), cap(arr))
+	repo := Station{}
+	json.Unmarshal(bodyText, &repo)
+	json.Unmarshal([]byte(j), &arr)
 
-	people1 := people{}
-	json.Unmarshal(textBytes, &people1)
-	fmt.Println(people1.Message)
+	fmt.Printf("%v\n", arr[0].Permissions.Admin)
+	//fmt.Println(repo)
+
 	/*for key, value := range x {
 		fmt.Printf("%s -> %s\n", key, value)
 	}*/
@@ -55,6 +55,9 @@ func basicAuth(url string) string {
 	return s
 }
 
-type people struct {
-	Message string `json:"message"`
+type repo struct {
+	Admin bool `json:"admin"`
+}
+type Station struct {
+	Permissions repo `json:"permissions"`
 }
