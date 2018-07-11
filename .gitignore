@@ -1,4 +1,9 @@
 *.exe
+
+
+
 star.json
+
 star-go
+*.star-go
 *.config

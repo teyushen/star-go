@@ -6,36 +6,62 @@ import (
 	"log"
 )
 
+type User struct {
+	Token string
+}
+
 type Repo struct {
 	Owner string
 	RepoName string
 }
 
+func SaveUser(user User) {
+
+	writeToConfig(".config", user)
+}
+
+func GetUser() User {
+
+	content, err := ioutil.ReadFile(".config")
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	user := User{}
+	json.Unmarshal(content, &user)
+
+	log.Printf("File contents: %s", user)
+
+	return user
+}
+
+
 func SaveRepo(repo Repo) {
 
-	writeToConfig(repo)
+	writeToConfig(".star-go", []Repo{repo})
 }
 
 func SaveRepos(repos []Repo) {
 
-	writeToConfig(repos)
+	writeToConfig(".star-go", repos)
 }
 
-func AppendRepo(repo Repo) {
+func AppendRepo(repo Repo) []Repo{
 
 	repos := append(ReadRepos(), repo)
-	writeToConfig(repos)
+	SaveRepos(repos)
+	return repos
 }
 
 func AppendRepos(repos []Repo) {
 
 	combineRepo := append(ReadRepos(), repos...)
-	writeToConfig(combineRepo)
+	writeToConfig(".star-go", combineRepo)
 }
 
 func ReadRepos() []Repo {
 
-	content, err := ioutil.ReadFile("./.config")
+	content, err := ioutil.ReadFile(".star-go")
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -48,10 +74,10 @@ func ReadRepos() []Repo {
 	return repos
 }
 
-func writeToConfig(str interface{}) {
+func writeToConfig(filename string, str interface{}) {
 	b, _ := json.Marshal(str)
 
-	err := ioutil.WriteFile("./.config", b, 0644)
+	err := ioutil.WriteFile(filename, b, 0777)
 
 	if err != nil {
 		panic(err)
@@ -59,13 +85,3 @@ func writeToConfig(str interface{}) {
 	return
 }
 
-func WriteToConfig(str interface{}) {
-	b, _ := json.Marshal(str)
-
-	err := ioutil.WriteFile("./.config", b, 0644)
-
-	if err != nil {
-		panic(err)
-	}
-	return
-}

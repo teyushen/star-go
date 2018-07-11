@@ -8,9 +8,7 @@ import (
 )
 
 
-type User struct {
-	Token string
-}
+
 
 func StarOnMe(u User, url string) {
 	client := &http.Client{}

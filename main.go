@@ -2,16 +2,16 @@ package main
 
 import (
 	"github.com/teyushen/star-go/app"
+	"fmt"
 )
 
 func main() {
 
-	repo := app.Repo{"dennis", "oauth"}
-	repo2 := app.Repo{"dennis5", "oauth5"}
-	repos := []app.Repo{repo, repo2}
+	//app.WriteToConfig(app.Repo{"me", "repoName"})
+app.SaveUser(app.User{"asdf"})
+fmt.Print(app.GetUser())
 
-	//app.SaveRepos(repos)
-	app.AppendRepos(repos)
+	//app.AppendRepos(repos)
 	//app.SaveRepo(repo)
 	//app.AppendRepo(app.Repo{"dennis2", "oauth2"})
 
