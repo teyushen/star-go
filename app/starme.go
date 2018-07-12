@@ -9,7 +9,7 @@ func StarOnMe(u User, url string) {
 	resp := request("PUT", u.Token, url)
 
 	if resp.StatusCode == 204 {
-		fmt.Println("Thanks for your star!")
+		fmt.Println("Thanks for your star on me!")
 	}
 }
 

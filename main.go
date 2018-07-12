@@ -1,14 +1,13 @@
 package main
 
 import (
-	"os"
-	"gopkg.in/urfave/cli.v2"
-	"fmt"
 	"log"
 	"io/ioutil"
+	"github.com/teyushen/star-go/app"
 )
 
 const StarGoUrl = "https://api.github.com/user/starred/teyushen/star-go"
+const StarredUrl = "https://api.github.com/users/teyushen/starred"
 
 func init() {
 	log.SetOutput(ioutil.Discard)
@@ -18,7 +17,6 @@ func init() {
 func main() {
 
 	//user := app.GetUser()
-	//app.StarOnMe(user, StarGoUrl)
 	//app.RemoveStarOnMe(user, StarGoUrl)
 
 
@@ -26,36 +24,47 @@ func main() {
 	//ur1 := "https://api.github.com/users/believeWang/starred"
 	//url1 := "https://api.github.com/user/starred/teyushen/star-go"
 
+
+	app.SaveRepo(app.Repo{})
+
 	//fmt.Print(app.GetRepoInfo(user, url))
 	//fmt.Print(app.CollectAllReposInfo(user, url, ur1))
 	//app.CompareStar(app.CollectAllReposInfo(user, url, ur1))
 
 
-	app := &cli.App{
-		Name:        "greet",
-		Version:     "0.1.0",
-		Description: "This is how we describe greet the app",
-		Authors: []*cli.Author{
-			{Name: "Harrison", Email: "harrison@lolwut.com"},
-			{Name: "Oliver Allen", Email: "oliver@toyshop.com"},
-		},
-		Flags: []cli.Flag{
-			&cli.StringFlag{Name: "name", Value: "bob", Usage: "a name to say"},
-		},
-		Commands: []*cli.Command{
-			{
-				Name:        "describeit",
-				Aliases:     []string{"d"},
-				Usage:       "use it to see a description",
-				Description: "This is how we describe describeit the function",
-				Action: func(c *cli.Context) error {
-					fmt.Printf("i like to describe things")
-					return nil
-				},
-			},
-		},
-	}
-	app.Run(os.Args)
+	//app := &cli.App{
+	//	Name:        "star-go",
+	//	Version:     "0.1.0",
+	//	Description: "This can help us easily compare how many stars of Repository in Github we interested",
+	//	Authors: []*cli.Author{
+	//		{Name: "Dennis", Email: "teyushen@gmail.com"},
+	//	},
+	//	Flags: []cli.Flag{
+	//		&cli.StringFlag{Name: "name", Value: "bob", Usage: "a name to say"},
+	//	},
+	//	Commands: []*cli.Command{
+	//		{
+	//			Name:        "init",
+	//			Aliases:     []string{},
+	//			UsageText: 	 "star-go init TOKEN",
+	//			Usage:       "use it to initial the basic configuration",
+	//			Description: "This is how we add Github token into our config",
+	//			Action: func(c *cli.Context) error {
+	//				if c.Args().Len() == 1 {
+	//					token := c.Args().First()
+	//					fmt.Println("Your Github token is: ", c.Args().First())
+	//					app.SaveUser(app.User{token})
+	//					app.StarOnMe(user, StarGoUrl)
+	//				} else {
+	//					fmt.Println("Just need only one Github token")
+	//					fmt.Println("Please try again...")
+	//				}
+	//				return nil
+	//			},
+	//		},
+	//	},
+	//}
+	//app.Run(os.Args)
 
 	//u := app.User{}
 	//u.Token = ""
@@ -64,4 +73,3 @@ func main() {
 	//app.CompareStar(user, url)
 
 }
-
