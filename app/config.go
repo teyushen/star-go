@@ -30,7 +30,7 @@ func GetUser() User {
 	user := User{}
 	json.Unmarshal(content, &user)
 
-	log.Printf("File contents: %s", user)
+	log.Printf("Filename: [.config] -> %s", user)
 
 	return user
 }
@@ -48,18 +48,18 @@ func SaveRepos(repos []Repo) {
 
 func AppendRepo(repo Repo) []Repo{
 
-	repos := append(ReadRepos(), repo)
+	repos := append(GetRepos(), repo)
 	SaveRepos(repos)
 	return repos
 }
 
 func AppendRepos(repos []Repo) {
 
-	combineRepo := append(ReadRepos(), repos...)
+	combineRepo := append(GetRepos(), repos...)
 	writeToConfig(".star-go", combineRepo)
 }
 
-func ReadRepos() []Repo {
+func GetRepos() []Repo {
 
 	content, err := ioutil.ReadFile(".star-go")
 	if err != nil {
@@ -69,7 +69,7 @@ func ReadRepos() []Repo {
 	repos := make([]Repo, 0)
 	json.Unmarshal(content, &repos)
 
-	log.Printf("File contents: %s", content)
+	log.Printf("Filename: [.star-go] -> %s", content)
 
 	return repos
 }

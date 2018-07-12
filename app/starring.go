@@ -1,54 +1,55 @@
 package app
 
 import (
-	"net/http"
-	"log"
+	"sort"
 	"io/ioutil"
 	"encoding/json"
+	"fmt"
 )
 
+func GetRepoInfo(u User, url string) []repoInformation {
 
+	resp := request("GET", u.Token, url)
 
+	bodyText, _ := ioutil.ReadAll(resp.Body)
 
-func StarOnMe(u User, url string) {
-	client := &http.Client{}
-	req, _ := http.NewRequest("PUT", url, nil)
-	req.Header.Set("Authorization", "token " + u.Token)
-	req.Header.Set("Content-Length", "0")
-	resp, err := client.Do(req)
-	if err != nil {
-		log.Fatal(err)
-	}
-	log.Printf("%v", resp.Status)
+	reposInfo := make([]repoInformation, 0)
+	json.Unmarshal(bodyText, &reposInfo)
+
+	return reposInfo
 }
 
-func RemoveStarOnMe(u User, url string) {
-	client := &http.Client{}
-	req, _ := http.NewRequest("DELETE", url, nil)
-	req.Header.Set("Authorization", "token " + u.Token)
-	resp, err := client.Do(req)
-	if err != nil {
-		log.Fatal(err)
+func CollectAllReposInfo(u User, urls ...string) []repoInformation {
+
+	reposInfo := make([]repoInformation, 0)
+	ch := make(chan []repoInformation)
+
+	for _, url := range urls {
+		go func() {
+			ch <- GetRepoInfo(u, url)
+		}()
+		reposInfo = append(reposInfo, <- ch...)
 	}
-	log.Printf("%v", resp.Status)
+
+	return reposInfo
 }
 
-func CompareStar(u User, url string) {
-	client := &http.Client{}
-	req, err := http.NewRequest("GET", url, nil)
-	req.Header.Set("Authorization", "token " + u.Token)
-	resp, err := client.Do(req)
-	if err != nil {
-		log.Fatal(err)
-	}
 
-	bodyText, err := ioutil.ReadAll(resp.Body)
+type byStar []repoInformation
 
-	arr := make([]repoInformation,0)
-	json.Unmarshal(bodyText, &arr)
+func (a byStar) Len() int           { return len(a) }
+func (a byStar) Swap(i, j int)      { a[i], a[j] = a[j], a[i] }
+func (a byStar) Less(i, j int) bool { return a[i].StargazersCount > a[j].StargazersCount }
 
-	for key, value := range arr {
-		log.Printf("[%v] -> name: %v, star: %v, language: %v", key, value.Name, value.StargazersCount, value.Language)
+
+func CompareStar(reposInfo []repoInformation) {
+
+	sort.Sort(byStar(reposInfo))
+
+	//fmt.Println("|Top|---------------|star|---------------|language|--------------------|name|")
+	fmt.Printf("%5v %15v %15v %50v \n", "TOP", "NAME", "LANGUAGE", "FULLNAME")
+	for index, value := range reposInfo {
+		fmt.Printf("%5v %15v %15v %50v \n", index+1, value.StargazersCount, value.Language, value.FullName)
 	}
 
 }

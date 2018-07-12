@@ -22,7 +22,7 @@ func TestSaveUser(t *testing.T) {
 
 func TestSaveRepos(t *testing.T) {
 	SaveRepos([]Repo{Repo{"me", "star-go"}})
-	repos := ReadRepos()
+	repos := GetRepos()
 
 	if len(repos) != 1 {
 		t.Errorf("Expected repo size is '1', but got '%v'", len(repos))
@@ -40,7 +40,7 @@ func TestSaveRepos(t *testing.T) {
 
 func TestSaveRepo(t *testing.T) {
 	SaveRepo(Repo{"me", "star-go"})
-	repos := ReadRepos()
+	repos := GetRepos()
 
 	if len(repos) != 1 {
 		t.Errorf("Expected repo size is '1', but got '%v'", len(repos))
@@ -59,7 +59,7 @@ func TestSaveRepo(t *testing.T) {
 func TestAppendRepo(t *testing.T) {
 	SaveRepo(Repo{"me", "star-go"})
 	AppendRepo(Repo{"you", "go-star"})
-	repos := ReadRepos()
+	repos := GetRepos()
 
 	if len(repos) != 2 {
 		t.Errorf("Expected repo size is '2', but got '%v'", len(repos))
@@ -78,7 +78,7 @@ func TestAppendRepo(t *testing.T) {
 func TestAppendRepos(t *testing.T) {
 	SaveRepo(Repo{"me", "star-go"})
 	AppendRepos([]Repo{Repo{"you", "go-star"}, Repo{"they", "no-star"}})
-	repos := ReadRepos()
+	repos := GetRepos()
 
 	if len(repos) != 3 {
 		t.Errorf("Expected repo size is '3', but got '%v'", len(repos))
