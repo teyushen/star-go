@@ -16,49 +16,15 @@ func TestSaveUser(t *testing.T) {
 
 	if user.Token != "123456" {
 		t.Errorf("Expected User Token is '123456', but got '%s'", user.Token)
+		return
 	}
 
 }
 
 func TestSaveRepos(t *testing.T) {
-	SaveRepos([]Repo{Repo{"me", "star-go"}})
-	repos := GetRepos()
-
-	if len(repos) != 1 {
-		t.Errorf("Expected repo size is '1', but got '%v'", len(repos))
-		return
-	}
-
-	if o := repos[0].Owner; o != "me" {
-		t.Errorf("Expected Owner is 'me', but got '%s'", o)
-	}
-	if r := repos[0].RepoName; r != "star-go" {
-		t.Errorf("Expected RepoName is 'star-go', but got '%s'", r)
-	}
-
-}
-
-func TestSaveRepo(t *testing.T) {
-	SaveRepo(Repo{"me", "star-go"})
-	repos := GetRepos()
-
-	if len(repos) != 1 {
-		t.Errorf("Expected repo size is '1', but got '%v'", len(repos))
-		return
-	}
-
-	if o := repos[0].Owner; o != "me" {
-		t.Errorf("Expected Owner is 'me', but got '%s'", o)
-	}
-	if r := repos[0].RepoName; r != "star-go" {
-		t.Errorf("Expected RepoName is 'star-go', but got '%s'", r)
-	}
-
-}
-
-func TestAppendRepo(t *testing.T) {
-	SaveRepo(Repo{"me", "star-go"})
-	AppendRepo(Repo{"you", "go-star"})
+	repo1 := RepoConfig{"me", []string{"star-go", "star-go1"}}
+	repo2 := RepoConfig{"you", []string{"no-star", "no-star1"}}
+	SaveRepos([]RepoConfig{repo1, repo2})
 	repos := GetRepos()
 
 	if len(repos) != 2 {
@@ -66,18 +32,30 @@ func TestAppendRepo(t *testing.T) {
 		return
 	}
 
+	if o := repos[0].Owner; o != "me" {
+		t.Errorf("Expected Owner is 'me', but got '%s'", o)
+		return
+	}
 	if o := repos[1].Owner; o != "you" {
 		t.Errorf("Expected Owner is 'you', but got '%s'", o)
+		return
 	}
-	if r := repos[1].RepoName; r != "go-star" {
-		t.Errorf("Expected RepoName is 'go-star', but got '%s'", r)
+	if size := len(repos[0].RepoNames); size != 2 {
+		t.Errorf("Expected me repo size is '2', but got '%d'", size)
+		return
+	}
+	if size := len(repos[1].RepoNames); size != 2 {
+		t.Errorf("Expected you repo size is '2', but got '%d'", size)
+		return
 	}
 
 }
 
 func TestAppendRepos(t *testing.T) {
-	SaveRepo(Repo{"me", "star-go"})
-	AppendRepos([]Repo{Repo{"you", "go-star"}, Repo{"they", "no-star"}})
+	TestSaveRepos(t)
+	repo1 := RepoConfig{"me", []string{"star-go2", "star-go3"}}
+	repo2 := RepoConfig{"they", []string{"star1", "star3"}}
+	AppendRepos(repo1, repo2)
 	repos := GetRepos()
 
 	if len(repos) != 3 {
@@ -85,12 +63,22 @@ func TestAppendRepos(t *testing.T) {
 		return
 	}
 
+	if size := len(repos[0].RepoNames); size != 4 {
+		t.Errorf("Expected RepoName size is 4, but got '%d'", size)
+		return
+	}
+
 	if o := repos[2].Owner; o != "they" {
 		t.Errorf("Expected Owner is 'they', but got '%s'", o)
+		return
 	}
-	if r := repos[2].RepoName; r != "no-star" {
-		t.Errorf("Expected RepoName is 'no-star', but got '%s'", r)
+	if size := len(repos[2].RepoNames); size != 2 {
+		t.Errorf("Expected RepoName size is 2, but got '%d'", size)
+		return
 	}
 
 }
+
+
+
 

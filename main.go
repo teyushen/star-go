@@ -13,6 +13,9 @@ func init() {
 	log.SetOutput(ioutil.Discard)
 }
 
+//func parse(str string) {
+//	str.
+//}
 
 func main() {
 
@@ -25,7 +28,14 @@ func main() {
 	//url1 := "https://api.github.com/user/starred/teyushen/star-go"
 
 
-	app.SaveRepo(app.Repo{})
+	repo1 := app.RepoConfig{"me", []string{"star-go2", "star-go3"}}
+	repo2 := app.RepoConfig{"they", []string{"star1", "star3"}}
+	repo3 := app.RepoConfig{"they", []string{"star1", "star4"}}
+
+	app.SaveRepos([]app.RepoConfig{repo1, repo2, repo3}  )
+	//fmt.Printf("%v", )
+	//repos := append(app.GetRepos(), repo)
+	//SaveRepos(repos)
 
 	//fmt.Print(app.GetRepoInfo(user, url))
 	//fmt.Print(app.CollectAllReposInfo(user, url, ur1))

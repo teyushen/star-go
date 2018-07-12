@@ -10,9 +10,9 @@ type User struct {
 	Token string
 }
 
-type Repo struct {
-	Owner string
-	RepoName string
+type RepoConfig struct {
+	Owner     string
+	RepoNames []string
 }
 
 func SaveUser(user User) {
@@ -35,38 +35,54 @@ func GetUser() User {
 	return user
 }
 
+//func SaveRepo(repo RepoConfig) {
+//
+//	writeToConfig(".star-go", []RepoConfig{repo})
+//}
 
-func SaveRepo(repo Repo) {
+func SaveRepos(repos []RepoConfig) {
 
-	writeToConfig(".star-go", []Repo{repo})
+	repoConfigs := make([]RepoConfig, 0)
+	for _, repo := range repos {
+		if !containRepo(repoConfigs, repo) {
+			repoConfigs = append(repoConfigs, repo)
+		}
+	}
+	writeToConfig(".star-go", repoConfigs)
 }
 
-func SaveRepos(repos []Repo) {
+func containRepo(repos []RepoConfig, repo RepoConfig) bool {
 
-	writeToConfig(".star-go", repos)
+	for index, value := range repos {
+		if value.Owner == repo.Owner {
+			repos[index].RepoNames = append(value.RepoNames, repo.RepoNames...)
+			return true
+		}
+	}
+	return false
+
 }
 
-func AppendRepo(repo Repo) []Repo{
+func AppendRepos(repos ...RepoConfig) []RepoConfig {
 
-	repos := append(GetRepos(), repo)
-	SaveRepos(repos)
-	return repos
+	repoConfigs := GetRepos()
+	for _, repo := range repos {
+		if !containRepo(repoConfigs, repo) {
+			repoConfigs = append(repoConfigs, repo)
+		}
+	}
+	SaveRepos(repoConfigs)
+	return repoConfigs
 }
 
-func AppendRepos(repos []Repo) {
-
-	combineRepo := append(GetRepos(), repos...)
-	writeToConfig(".star-go", combineRepo)
-}
-
-func GetRepos() []Repo {
+func GetRepos() []RepoConfig {
 
 	content, err := ioutil.ReadFile(".star-go")
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	repos := make([]Repo, 0)
+	repos := make([]RepoConfig, 0)
 	json.Unmarshal(content, &repos)
 
 	log.Printf("Filename: [.star-go] -> %s", content)
@@ -84,4 +100,3 @@ func writeToConfig(filename string, str interface{}) {
 	}
 	return
 }
-
