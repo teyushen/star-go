@@ -4,6 +4,7 @@ import (
 	"io/ioutil"
 	"encoding/json"
 	"log"
+	"github.com/teyushen/star-go/arrays"
 )
 
 type User struct {
@@ -35,39 +36,39 @@ func GetUser() User {
 	return user
 }
 
-//func SaveRepo(repo RepoConfig) {
-//
-//	writeToConfig(".star-go", []RepoConfig{repo})
-//}
-
 func SaveRepos(repos []RepoConfig) {
 
 	repoConfigs := make([]RepoConfig, 0)
 	for _, repo := range repos {
-		if !containRepo(repoConfigs, repo) {
+		needMerge := mergeRepo(repoConfigs, repo)
+		if !needMerge {
 			repoConfigs = append(repoConfigs, repo)
 		}
 	}
 	writeToConfig(".star-go", repoConfigs)
 }
 
-func containRepo(repos []RepoConfig, repo RepoConfig) bool {
+func mergeRepo(repos []RepoConfig, repo RepoConfig) bool {
 
 	for index, value := range repos {
 		if value.Owner == repo.Owner {
-			repos[index].RepoNames = append(value.RepoNames, repo.RepoNames...)
+			for _, name := range repo.RepoNames {
+				if !arrays.Contains(value.RepoNames, name) {
+					repos[index].RepoNames = append(repos[index].RepoNames, name)
+				}
+			}
 			return true
 		}
 	}
 	return false
-
 }
 
 func AppendRepos(repos ...RepoConfig) []RepoConfig {
 
 	repoConfigs := GetRepos()
 	for _, repo := range repos {
-		if !containRepo(repoConfigs, repo) {
+		needMerge := mergeRepo(repoConfigs, repo)
+		if !needMerge {
 			repoConfigs = append(repoConfigs, repo)
 		}
 	}
