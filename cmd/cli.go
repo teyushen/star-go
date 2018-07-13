@@ -50,7 +50,7 @@ func Cli() {
 				Name:        "focus",
 				Aliases:     []string{"f"},
 				ArgsUsage: 	 "<owner/repository...>",
-				Usage:       "Save the repository which you are interesting",
+				Usage:       "Save the repository which you are interested",
 				Description: "The repository you want to focus on",
 				Action: func(c *cli.Context) error {
 					if c.Args().Len() > 0 {
@@ -72,7 +72,7 @@ func Cli() {
 				Name:        "append",
 				Aliases:     []string{"a"},
 				ArgsUsage: 	 "<owner/repository...>",
-				Usage:       "Append the repository you are interesting on already focus",
+				Usage:       "Append the repository you are interested on already focus",
 				Description: "The repository you want to focus on",
 				Action: func(c *cli.Context) error {
 					if c.Args().Len() > 0 {
@@ -94,7 +94,7 @@ func Cli() {
 				Name:        "compare",
 				Aliases:     []string{"c"},
 				Usage:       "Use this to order the numbers of star",
-				Description: "Compare all the repositories you are interesting",
+				Description: "Compare all the repositories you are interested",
 				Action: func(c *cli.Context) error {
 					app.CompareStar(app.PrepareReposInfo())
 					return nil

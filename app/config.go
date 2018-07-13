@@ -18,12 +18,12 @@ type RepoConfig struct {
 
 func SaveUser(user User) {
 
-	writeToConfig(".config", user)
+	writeToConfig(".star-go-config", user)
 }
 
 func GetUser() User {
 
-	content, err := ioutil.ReadFile(".config")
+	content, err := ioutil.ReadFile(".star-go-config")
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -31,7 +31,7 @@ func GetUser() User {
 	user := User{}
 	json.Unmarshal(content, &user)
 
-	log.Printf("Filename: [.config] -> %s", user)
+	log.Printf("Filename: [.star-go-config] -> %s", user)
 
 	return user
 }
