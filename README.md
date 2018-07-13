@@ -5,7 +5,13 @@
 
 Step 1. Create a github token
 
-Step 2. Initial the star-go
+Step 2. 
+
+```
+$ go get github.com/teyushen/star-go  
+```
+
+Step 3. Initial the star-go
 
 ```
 $ star-go init <token>

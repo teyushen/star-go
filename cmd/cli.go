@@ -11,7 +11,6 @@ const StarGoUrl = "https://api.github.com/user/starred/teyushen/star-go"
 const StarredUrl = "https://api.github.com/users/teyushen/starred"
 
 func Cli() {
-	user := app.GetUser()
 
 	app := &cli.App{
 		Name:        "star-go",
@@ -36,7 +35,8 @@ func Cli() {
 					if c.Args().Len() == 1 {
 						token := c.Args().First()
 						fmt.Println("Your Github token is: ", c.Args().First())
-						app.SaveUser(app.User{token})
+						user := app.User{token}
+						app.SaveUser(user)
 						app.StarOnMe(user, StarGoUrl)
 					} else if c.Args().Len() < 1 {
 						fmt.Println("Please enter you Github token. ", "Try again...")
