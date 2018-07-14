@@ -5,7 +5,10 @@ import (
 	"encoding/json"
 	"log"
 	"github.com/teyushen/star-go/arrays"
+	"os/user"
 )
+
+var usr, _ = user.Current()
 
 type User struct {
 	Token string
@@ -16,14 +19,13 @@ type RepoConfig struct {
 	RepoNames []string
 }
 
-func SaveUser(user User) {
-
-	writeToConfig(".star-go-config", user)
+func SaveUser(u User) {
+	writeToConfig(usr.HomeDir + "/.star-go-config", u)
 }
 
 func GetUser() User {
 
-	content, err := ioutil.ReadFile(".star-go-config")
+	content, err := ioutil.ReadFile(usr.HomeDir + "/.star-go-config")
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -31,7 +33,7 @@ func GetUser() User {
 	user := User{}
 	json.Unmarshal(content, &user)
 
-	log.Printf("Filename: [.star-go-config] -> %s", user)
+	log.Printf("Filename: [%s/.star-go-config] -> %s", usr.HomeDir, user)
 
 	return user
 }
@@ -45,7 +47,7 @@ func SaveRepos(repos []RepoConfig) {
 			repoConfigs = append(repoConfigs, repo)
 		}
 	}
-	writeToConfig(".star-go", repoConfigs)
+	writeToConfig(usr.HomeDir + "/.watching", repoConfigs)
 }
 
 func mergeRepo(repos []RepoConfig, repo RepoConfig) bool {
@@ -78,7 +80,7 @@ func AppendRepos(repos ...RepoConfig) []RepoConfig {
 
 func GetRepos() []RepoConfig {
 
-	content, err := ioutil.ReadFile(".star-go")
+	content, err := ioutil.ReadFile(usr.HomeDir + "/.watching")
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -86,7 +88,7 @@ func GetRepos() []RepoConfig {
 	repos := make([]RepoConfig, 0)
 	json.Unmarshal(content, &repos)
 
-	log.Printf("Filename: [.star-go] -> %s", content)
+	log.Printf("Filename: [%s/.watching] -> %s", usr.HomeDir, content)
 
 	return repos
 }

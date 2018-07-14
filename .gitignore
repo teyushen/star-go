@@ -5,5 +5,5 @@
 star.json
 
 star-go
-*.star-go
-*.config
+*.star-go*
+*.*config
