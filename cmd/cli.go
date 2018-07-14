@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"github.com/teyushen/star-go/app"
 	"os"
+	"github.com/fatih/color"
 )
 
 const StarGoUrl = "https://api.github.com/user/starred/teyushen/star-go"
@@ -97,6 +98,19 @@ func Cli() {
 				Description: "Compare all the repositories you are interested",
 				Action: func(c *cli.Context) error {
 					app.CompareStar(app.PrepareReposInfo())
+					return nil
+				},
+			},{
+				Name:        "list",
+				Aliases:     []string{"ls"},
+				Usage:       "Display all the focus repositories",
+				Description: "List all the repo you are interested",
+				Action: func(c *cli.Context) error {
+					cc := color.New(color.FgRed)
+					cc.Printf("%10s %20s\n", "Owner", "Repositories")
+					for _, repo := range app.GetRepos() {
+						fmt.Printf("%10s     %s\n", repo.Owner, repo.RepoNames)
+					}
 					return nil
 				},
 			},
