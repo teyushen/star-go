@@ -1,13 +1,13 @@
 package main
 
 import (
-	"log"
-	"io/ioutil"
 	"github.com/teyushen/star-go/cmd"
+	"log"
 )
 
 func init() {
-	log.SetOutput(ioutil.Discard)
+	log.SetFlags(log.LstdFlags | log.Lshortfile)
+	//log.SetOutput(ioutil.Discard)
 }
 
 

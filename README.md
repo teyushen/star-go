@@ -7,12 +7,12 @@
 
 	> You will get something like `3061ba66c81c7590e3b2a3bd3055fece429fb531`
 
-## Determine how to install star-go
+## Determine how to use star-go
 
 * Golang
 * Docker
 
-## Install with Golang
+## Use with Golang
 
 2. Install star-go
 
@@ -44,16 +44,27 @@
 	$ star-go compare
 	```
 	
-## Install with Docker
+## Use with Docker
 
-```
-$ mkdir -p ~/.star-go && cd ~/.star-go
-```
+1. Create a directory
 
-```
-$ docker run -it --name star-go -v "$(pwd)":/tmp --rm sldennis/star-go init 3061ba66c81c7590e3b2a3bd3055fece429fb531
-```
+	```
+	$ mkdir -p /.star-go && cd /.star-gow
+	```
 
-```
-$ docker run -it --name star-go -v "$(pwd)":/tmp --rm sldennis/star-go focus teyushen/star-go teyushen/dockerfile golang/go
-```
+2. Initial the star-go
+	```
+	$ docker run -it --name star-go -v "$(pwd)":/root --rm sldennis/star-go init 3061ba66c81c7590e3b2a3bd3055fece429fb531
+	```
+
+3. Add you interesting github repositories
+
+	```
+	$ docker run -it --name star-go -v "$(pwd)":/root --rm sldennis/star-go focus teyushen/star-go teyushen/dockerfile golang/go
+	```
+
+4. Order the numbers of size of repositories you are interested
+
+	```
+	$ docker run -it --name star-go -v "$(pwd)":/root --rm sldennis/star-go focus teyushen/star-go teyushen/dockerfile golang/go
+	```

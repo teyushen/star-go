@@ -6,6 +6,8 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/teyushen/star-go/arrays"
+	"log"
+	"strings"
 )
 
 func GetRepoInfo(u User, url string) []RepoInformation {
@@ -13,6 +15,10 @@ func GetRepoInfo(u User, url string) []RepoInformation {
 	resp := request("GET", u.Token, url)
 
 	bodyText, _ := ioutil.ReadAll(resp.Body)
+
+	if strings.Contains(string(bodyText), "Bad credentials") {
+		log.Println(string(bodyText), "Token: ", u.Token)
+	}
 
 	reposInfo := make([]RepoInformation, 0)
 	json.Unmarshal(bodyText, &reposInfo)
@@ -31,6 +37,7 @@ func CollectAllReposInfo(u User, urls ...string) []RepoInformation {
 		}()
 		reposInfo = append(reposInfo, <- ch...)
 	}
+
 	return reposInfo
 }
 
@@ -43,10 +50,13 @@ func PrepareReposInfo() []RepoInformation{
 		arr = append(arr, "https://api.github.com/users/" + repo.Owner + "/repos")
 	}
 
+	log.Println(arr)
+
 	reposInfo := CollectAllReposInfo(u, arr...)
 	compareReposInfo := make([]RepoInformation, 0)
 	for _, repo := range repos {
 		for _, repoInfo := range reposInfo {
+			//log.Println(repo.Owner, repoInfo.Owner.Login, arrays.Contains(repo.RepoNames, repoInfo.Name))
 			if repo.Owner == repoInfo.Owner.Login && arrays.Contains(repo.RepoNames, repoInfo.Name) {
 				compareReposInfo = append(compareReposInfo, repoInfo)
 			}

@@ -1,6 +1,6 @@
 FROM golang:1.8
 
-RUN mkdir -p /data
+#RUN mkdir -p /data
 
 WORKDIR /go/src/github.com/teyushen/star-go
 COPY . .
@@ -8,7 +8,7 @@ COPY . .
 RUN go get -d -v github.com/teyushen/star-go
 RUN go install -v github.com/teyushen/star-go
 
-WORKDIR /data
+#WORKDIR /data
 
 ENTRYPOINT ["star-go"]
 #CMD ["star-go"]
