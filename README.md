@@ -1,8 +1,6 @@
 # star-go
 
-[![Travis](https://img.shields.io/travis/USER/REPO.svg)](https://travis-ci.org/teyushen/star-go)
-
-![DUB](https://img.shields.io/dub/l/vibe-d.svg)
+[![Build Status](https://travis-ci.org/teyushen/star-go.svg?branch=master)](https://travis-ci.org/teyushen/star-go)   ![DUB](https://img.shields.io/dub/l/vibe-d.svg)
 
 
 ## Prerequisites
