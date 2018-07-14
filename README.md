@@ -49,7 +49,7 @@
 1. Create a directory
 
 	```
-	$ mkdir -p /.star-go && cd /.star-gow
+	$ mkdir -p /.star-go && cd /.star-go
 	```
 
 2. Initial the star-go
