@@ -17,7 +17,7 @@ func GetRepoInfo(u User, url string) []RepoInformation {
 	bodyText, _ := ioutil.ReadAll(resp.Body)
 
 	if strings.Contains(string(bodyText), "Bad credentials") {
-		log.Println(string(bodyText), "Token: ", u.Token)
+		fmt.Println(string(bodyText), "Token: ", u.Token)
 	}
 
 	reposInfo := make([]RepoInformation, 0)
