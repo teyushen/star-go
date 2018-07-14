@@ -1,5 +1,9 @@
 # star-go
 
+[![Travis](https://img.shields.io/travis/USER/REPO.svg)](https://travis-ci.org/teyushen/star-go)
+
+![DUB](https://img.shields.io/dub/l/vibe-d.svg)
+
 
 ## Prerequisites
 
@@ -68,3 +72,7 @@
 	```
 	$ docker run -it --name star-go -v "$(pwd)":/root --rm sldennis/star-go focus teyushen/star-go teyushen/dockerfile golang/go
 	```
+	
+## License
+
+MIT
