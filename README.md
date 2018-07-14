@@ -3,7 +3,7 @@
 
 ## Prerequisites
 
-* Create a github token ([how to generate a github token]())
+* Create a github token ([how to generate a github token](https://github.com/teyushen/star-go/tree/master/images))
 
 	> You will get something like `3061ba66c81c7590e3b2a3bd3055fece429fb531`
 
