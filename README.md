@@ -11,12 +11,12 @@
 
 ## Determine how to use star-go
 
-* Golang
-* Docker
+* [Golang](https://golang.org/doc/install) 
+* [Docker](https://docs.docker.com/install/) 
 
 ## Use with Golang
 
-2. Install star-go
+1. Install star-go
 
 	```
 	$ go get github.com/teyushen/star-go 
@@ -24,7 +24,7 @@
 	```
 
 
-3. Initial the star-go
+2. Initial the star-go
 
 	```
 	$ star-go init <token>
@@ -34,13 +34,16 @@
 	> `$ star-go init 3061ba66c81c7590e3b2a3bd3055fece429fb531`
 	
 
-4. Add you interesting github repositories
+3. Add you interesting github repositories
 
 	```
-	$ star-go focus teyushen/star-go teyushen/dockerfile golang/go
+	$ star-go focus <owner/repository>...
 	```
+	
+	> e.g.
+	> `$ star-go focus teyushen/star-go teyushen/dockerfile golang/go`
 
-5. Order the numbers of size of repositories you are interested
+4. Order the numbers of size of repositories you are interested
 
 	```
 	$ star-go compare
@@ -50,27 +53,43 @@
 
 1. Create a directory
 
-	```
-	$ mkdir -p /.star-go && cd /.star-go
-	```
+	- Linux or Mac
+	
+		```
+		$ mkdir -p ~/.star-go
+		```
 
 2. Initial the star-go
-	```
-	$ docker run -it --name star-go -v "$(pwd)":/root --rm sldennis/star-go init 3061ba66c81c7590e3b2a3bd3055fece429fb531
-	```
+	
+	- Linux or Mac
+	
+		```
+		$ docker run -it -v ~/.star-go:/root --rm sldennis/star-go init <token>
+		```
+	
+		> e.g. 
+		> `docker run -it -v ~/.star-go:/root --rm sldennis/star-go init 3061ba66c81c7590e3b2a3bd3055fece429fb531
+`
 
 3. Add you interesting github repositories
 
-	```
-	$ docker run -it --name star-go -v "$(pwd)":/root --rm sldennis/star-go focus teyushen/star-go teyushen/dockerfile golang/go
-	```
-
+	- Linux or Mac
+	
+		```
+		$ docker run -it -v ~/.star-go:/root --rm sldennis/star-go focus <owner/repository>...
+		```
+	
+		> e.g.
+		> `docker run -it -v ~/.star-go:/root --rm sldennis/star-go focus teyushen/star-go teyushen/dockerfile golang/go`
+	
 4. Order the numbers of size of repositories you are interested
 
-	```
-	$ docker run -it --name star-go -v "$(pwd)":/root --rm sldennis/star-go focus teyushen/star-go teyushen/dockerfile golang/go
-	```
+	- Linux or Mac
 	
+		```
+		$ docker run -it -v ~/.star-go:/root --rm sldennis/star-go compare
+		```
+		
 ## License
 
 MIT
