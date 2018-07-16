@@ -1,4 +1,4 @@
-![step1](https://github.com/teyushen/star-go/blob/master/logo.png)
+![step1](https://github.com/teyushen/star-go/blob/master/logo_res.png)
 
 
 [![Build Status](https://travis-ci.org/teyushen/star-go.svg?branch=master)](https://travis-ci.org/teyushen/star-go)   ![MIT](https://img.shields.io/packagist/l/doctrine/orm.svg)
