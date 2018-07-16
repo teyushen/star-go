@@ -1,5 +1,3 @@
-# star-go
-
 ![step1](https://github.com/teyushen/star-go/blob/master/logo.png)
 
 
