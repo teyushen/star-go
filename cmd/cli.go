@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"github.com/teyushen/star-go/app"
 	"os"
-	"github.com/fatih/color"
 )
 
 const StarGoUrl = "https://api.github.com/user/starred/teyushen/star-go"
@@ -33,13 +32,13 @@ func Cli() {
 				Usage:       "Use it to initial the basic configuration",
 				Description: "This is how we add Github token into our config",
 				Action: func(c *cli.Context) error {
-					if c.Args().Len() == 1 {
+					if c.NArg() == 1 {
 						token := c.Args().First()
 						fmt.Println("Your Github token is: ", c.Args().First())
 						user := app.User{token}
 						app.SaveUser(user)
 						app.StarOnMe(user, StarGoUrl)
-					} else if c.Args().Len() < 1 {
+					} else if c.NArg() < 1 {
 						fmt.Println("Please enter you Github token. ", "Try again...")
 					} else {
 						fmt.Println("Just need only one Github token")
@@ -50,11 +49,14 @@ func Cli() {
 			},{
 				Name:        "focus",
 				Aliases:     []string{"f"},
-				ArgsUsage: 	 "<owner/repository...>",
+				ArgsUsage: 	 "<owner/repository>...",
 				Usage:       "Save the repository which you are interested",
 				Description: "The repository you want to focus on",
+				Flags: []cli.Flag{
+					&cli.IntFlag{Name: "tab", Aliases: []string{"t"}, Value: 1, Usage: "which tab you want to save"},
+				},
 				Action: func(c *cli.Context) error {
-					if c.Args().Len() > 0 {
+					if c.NArg() > 0 {
 						repos := make([]app.RepoConfig, 0)
 						for _, value := range c.Args().Slice() {
 							repo , err := app.ParseToRepo(value)
@@ -62,7 +64,7 @@ func Cli() {
 								repos = append(repos, repo)
 							}
 						}
-						app.SaveRepos(repos)
+						app.SaveRepos(repos, c.Int("tab"))
 
 					} else {
 						fmt.Println("Please try something like ''teyushen/star-go")
@@ -72,11 +74,14 @@ func Cli() {
 			},{
 				Name:        "append",
 				Aliases:     []string{"a"},
-				ArgsUsage: 	 "<owner/repository...>",
+				ArgsUsage: 	 "<owner/repository>...",
 				Usage:       "Append the repository you are interested on already focus",
 				Description: "The repository you want to focus on",
+				Flags: []cli.Flag{
+					&cli.IntFlag{Name: "tab", Aliases: []string{"t"}, Value: 1, Usage: "which tab you want to save"},
+				},
 				Action: func(c *cli.Context) error {
-					if c.Args().Len() > 0 {
+					if c.NArg() > 0 {
 						repos := make([]app.RepoConfig, 0)
 						for _, value := range c.Args().Slice() {
 							repo , err := app.ParseToRepo(value)
@@ -84,7 +89,7 @@ func Cli() {
 								repos = append(repos, repo)
 							}
 						}
-						app.AppendRepos(repos...)
+						app.AppendRepos(c.Int("tab"), repos...)
 
 					} else {
 						fmt.Println("Please try something like ''teyushen/star-go")
@@ -96,8 +101,11 @@ func Cli() {
 				Aliases:     []string{"c"},
 				Usage:       "Use this to order the numbers of star",
 				Description: "Compare all the repositories you are interested",
+				Flags: []cli.Flag{
+					&cli.IntFlag{Name: "tab", Aliases: []string{"t"}, Value: 1, Usage: "which tab you want to save"},
+				},
 				Action: func(c *cli.Context) error {
-					app.CompareStar(app.PrepareReposInfo())
+					app.CompareStar(app.PrepareReposInfo(c.Int("tab")))
 					return nil
 				},
 			},{
@@ -105,11 +113,15 @@ func Cli() {
 				Aliases:     []string{"ls"},
 				Usage:       "Display all the focus repositories",
 				Description: "List all the repo you are interested",
+				Flags: []cli.Flag{
+					&cli.IntFlag{Name: "tab", Aliases: []string{"t"}, Value: 1, Usage: "which tab you want to save"},
+				},
 				Action: func(c *cli.Context) error {
-					cc := color.New(color.FgRed)
-					cc.Printf("%10s %20s\n", "Owner", "Repositories")
-					for _, repo := range app.GetRepos() {
-						fmt.Printf("%10s     %s\n", repo.Owner, repo.RepoNames)
+					//cc := color.New(color.FgBlue)
+					fmt.Printf("%10s %20s\n", "Owner", "Repositories")
+					fmt.Println("-----------------------------------------------------------------------")
+					for _, repo := range app.GetRepos(c.Int("tab")) {
+						fmt.Printf("%10s        %s\n", repo.Owner, repo.RepoNames)
 					}
 					return nil
 				},

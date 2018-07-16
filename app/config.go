@@ -6,9 +6,11 @@ import (
 	"log"
 	"github.com/teyushen/star-go/arrays"
 	"os/user"
+	"strconv"
 )
 
 var usr, _ = user.Current()
+
 
 type User struct {
 	Token string
@@ -38,7 +40,7 @@ func GetUser() User {
 	return user
 }
 
-func SaveRepos(repos []RepoConfig) {
+func SaveRepos(repos []RepoConfig, number int) {
 
 	repoConfigs := make([]RepoConfig, 0)
 	for _, repo := range repos {
@@ -47,16 +49,16 @@ func SaveRepos(repos []RepoConfig) {
 			repoConfigs = append(repoConfigs, repo)
 		}
 	}
-	writeToConfig(usr.HomeDir + "/.watching", repoConfigs)
+	writeToConfig(usr.HomeDir + "/.watching" + strconv.Itoa(number), repoConfigs)
 }
 
-func mergeRepo(repos []RepoConfig, repo RepoConfig) bool {
+func mergeRepo(existRepos []RepoConfig, repo RepoConfig) bool {
 
-	for index, value := range repos {
+	for index, value := range existRepos {
 		if value.Owner == repo.Owner {
 			for _, name := range repo.RepoNames {
 				if !arrays.Contains(value.RepoNames, name) {
-					repos[index].RepoNames = append(repos[index].RepoNames, name)
+					existRepos[index].RepoNames = append(existRepos[index].RepoNames, name)
 				}
 			}
 			return true
@@ -65,22 +67,22 @@ func mergeRepo(repos []RepoConfig, repo RepoConfig) bool {
 	return false
 }
 
-func AppendRepos(repos ...RepoConfig) []RepoConfig {
+func AppendRepos(number int, repos ...RepoConfig) []RepoConfig {
 
-	repoConfigs := GetRepos()
+	repoConfigs := GetRepos(number)
 	for _, repo := range repos {
 		needMerge := mergeRepo(repoConfigs, repo)
 		if !needMerge {
 			repoConfigs = append(repoConfigs, repo)
 		}
 	}
-	SaveRepos(repoConfigs)
+	SaveRepos(repoConfigs, number)
 	return repoConfigs
 }
 
-func GetRepos() []RepoConfig {
+func GetRepos(number int) []RepoConfig {
 
-	content, err := ioutil.ReadFile(usr.HomeDir + "/.watching")
+	content, err := ioutil.ReadFile(usr.HomeDir + "/.watching" + strconv.Itoa(number))
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -88,7 +90,7 @@ func GetRepos() []RepoConfig {
 	repos := make([]RepoConfig, 0)
 	json.Unmarshal(content, &repos)
 
-	log.Printf("Filename: [%s/.watching] -> %s", usr.HomeDir, content)
+	log.Printf("Filename: [%s/.watching%d] -> %s", usr.HomeDir, number, content)
 
 	return repos
 }

@@ -41,9 +41,9 @@ func CollectAllReposInfo(u User, urls ...string) []RepoInformation {
 	return reposInfo
 }
 
-func PrepareReposInfo() []RepoInformation{
+func PrepareReposInfo(number int) []RepoInformation{
 	u := GetUser()
-	repos := GetRepos()
+	repos := GetRepos(number)
 
 	arr := make([]string, 0)
 	for _, repo := range repos {

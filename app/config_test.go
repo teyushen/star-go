@@ -24,8 +24,8 @@ func TestSaveUser(t *testing.T) {
 func TestSaveRepos(t *testing.T) {
 	repo1 := RepoConfig{"me", []string{"star-go", "star-go1"}}
 	repo2 := RepoConfig{"you", []string{"no-star", "no-star1"}}
-	SaveRepos([]RepoConfig{repo1, repo2})
-	repos := GetRepos()
+	SaveRepos([]RepoConfig{repo1, repo2}, 1)
+	repos := GetRepos(1)
 
 	if len(repos) != 2 {
 		t.Errorf("Expected repo size is '2', but got '%v'", len(repos))
@@ -55,8 +55,8 @@ func TestAppendRepos(t *testing.T) {
 	TestSaveRepos(t)
 	repo1 := RepoConfig{"me", []string{"star-go2", "star-go3"}}
 	repo2 := RepoConfig{"they", []string{"star1", "star3"}}
-	AppendRepos(repo1, repo2)
-	repos := GetRepos()
+	AppendRepos(1, repo1, repo2)
+	repos := GetRepos(1)
 
 	if len(repos) != 3 {
 		t.Errorf("Expected repo size is '3', but got '%v'", len(repos))
@@ -79,6 +79,24 @@ func TestAppendRepos(t *testing.T) {
 
 }
 
+func TestMergeRepo(t *testing.T) {
 
+	existRepos := make([]RepoConfig, 0)
+	existRepos = append(existRepos, RepoConfig{"Dennis", []string{"star-go", "oauth2"}})
+
+	repo1 := RepoConfig{"Dennis", []string{"23"}}
+	repo2 := RepoConfig{"golang", []string{"go"}}
+
+
+	if !mergeRepo(existRepos, repo1) {
+		t.Error("Expected true, but got false")
+		return
+	}
+	if mergeRepo(existRepos, repo2) {
+		t.Error("Expected false, but got true")
+		return
+	}
+
+}
 
 
