@@ -7,7 +7,7 @@ import (
 )
 
 func init() {
-	//log.SetFlags(log.LstdFlags | log.Lshortfile)
+	log.SetFlags(log.LstdFlags | log.Lshortfile)
 	log.SetOutput(ioutil.Discard)
 }
 

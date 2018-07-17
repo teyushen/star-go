@@ -51,6 +51,9 @@ func PrepareReposInfo(number int) []RepoInformation{
 	}
 
 	log.Println(arr)
+	if len(arr) == 0 {
+		fmt.Println("Can not find any match repository")
+	}
 
 	reposInfo := CollectAllReposInfo(u, arr...)
 	compareReposInfo := make([]RepoInformation, 0)
