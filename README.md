@@ -104,6 +104,10 @@ This project can easily help us focus projects we are interested, and can also h
 		$ docker run -it -v ~/.star-go:/root/.star-go --rm sldennis/star-go compare
 		```
 		
+## Authors
+
+-	[Blair Lee](https://github.com/blairlee227) - *Logo Designer* - [dribbble](https://dribbble.com/blairlee)
+		
 ## License
 
 MIT
