@@ -12,9 +12,9 @@ This project can easily help us focus projects we are interested, and can also h
 
 ## Demo
 
--  ![step1](https://github.com/teyushen/star-go/blob/master/images/star-go-c.gif)
-
 -  ![step1](https://github.com/teyushen/star-go/blob/master/images/star-go-ls.gif)
+
+-  ![step1](https://github.com/teyushen/star-go/blob/master/images/star-go-c.gif)
 
 
 ## Prerequisites
