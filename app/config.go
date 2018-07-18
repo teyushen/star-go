@@ -22,12 +22,12 @@ type RepoConfig struct {
 }
 
 func SaveUser(u User) {
-	writeToConfig(usr.HomeDir + "/.star-go-config", u)
+	writeToConfig(usr.HomeDir + "/.star-go/.star-go-config", u)
 }
 
 func GetUser() User {
 
-	content, err := ioutil.ReadFile(usr.HomeDir + "/.star-go-config")
+	content, err := ioutil.ReadFile(usr.HomeDir + "/.star-go/.star-go-config")
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -35,7 +35,7 @@ func GetUser() User {
 	user := User{}
 	json.Unmarshal(content, &user)
 
-	log.Printf("Filename: [%s/.star-go-config] -> %s", usr.HomeDir, user)
+	log.Printf("Filename: [%s/.star-go/.star-go-config] -> %s", usr.HomeDir, user)
 
 	return user
 }
@@ -49,7 +49,7 @@ func SaveRepos(repos []RepoConfig, number int) {
 			repoConfigs = append(repoConfigs, repo)
 		}
 	}
-	writeToConfig(usr.HomeDir + "/.watching" + strconv.Itoa(number), repoConfigs)
+	writeToConfig(usr.HomeDir + "/.star-go/.watching" + strconv.Itoa(number), repoConfigs)
 }
 
 func mergeRepo(existRepos []RepoConfig, repo RepoConfig) bool {
@@ -82,7 +82,7 @@ func AppendRepos(number int, repos ...RepoConfig) []RepoConfig {
 
 func GetRepos(number int) []RepoConfig {
 
-	content, err := ioutil.ReadFile(usr.HomeDir + "/.watching" + strconv.Itoa(number))
+	content, err := ioutil.ReadFile(usr.HomeDir + "/.star-go/.watching" + strconv.Itoa(number))
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -90,7 +90,7 @@ func GetRepos(number int) []RepoConfig {
 	repos := make([]RepoConfig, 0)
 	json.Unmarshal(content, &repos)
 
-	log.Printf("Filename: [%s/.watching%d] -> %s", usr.HomeDir, number, content)
+	log.Printf("Filename: [%s/.star-go/.watching%d] -> %s", usr.HomeDir, number, content)
 
 	return repos
 }

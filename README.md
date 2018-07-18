@@ -3,6 +3,19 @@
 
 [![Build Status](https://travis-ci.org/teyushen/star-go.svg?branch=master)](https://travis-ci.org/teyushen/star-go)   ![MIT](https://img.shields.io/packagist/l/doctrine/orm.svg)
 
+## Features
+
+Sometimes we want to trace Github Projects we are interesed. And we always want to know how many ⭐️  they get now.
+
+This project can easily help us focus projects we are interested, and can also help us order these projects by ⭐️ size.
+
+
+## Demo
+
+-  ![step1](https://github.com/teyushen/star-go/blob/master/images/star-go-c.gif)
+
+-  ![step1](https://github.com/teyushen/star-go/blob/master/images/star-go-ls.gif)
+
 
 ## Prerequisites
 
@@ -65,11 +78,11 @@
 	- Linux or Mac
 	
 		```
-		$ docker run -it -v ~/.star-go:/root --rm sldennis/star-go init <token>
+		$ docker run -it -v ~/.star-go:/root/.star-go --rm sldennis/star-go init <token>
 		```
 	
 		> e.g. 
-		> `docker run -it -v ~/.star-go:/root --rm sldennis/star-go init 3061ba66c81c7590e3b2a3bd3055fece429fb531
+		> `docker run -it -v ~/.star-go:/root/.star-go --rm sldennis/star-go init 3061ba66c81c7590e3b2a3bd3055fece429fb531
 `
 
 3. Add you interesting github repositories
@@ -77,18 +90,18 @@
 	- Linux or Mac
 	
 		```
-		$ docker run -it -v ~/.star-go:/root --rm sldennis/star-go focus <owner/repository>...
+		$ docker run -it -v ~/.star-go:/root/.star-go --rm sldennis/star-go focus <owner/repository>...
 		```
 	
 		> e.g.
-		> `docker run -it -v ~/.star-go:/root --rm sldennis/star-go focus teyushen/star-go teyushen/dockerfile golang/go`
+		> `docker run -it -v ~/.star-go:/root/.star-go --rm sldennis/star-go focus teyushen/star-go teyushen/dockerfile golang/go`
 	
 4. Order the numbers of size of repositories you are interested
 
 	- Linux or Mac
 	
 		```
-		$ docker run -it -v ~/.star-go:/root --rm sldennis/star-go compare
+		$ docker run -it -v ~/.star-go:/root/.star-go --rm sldennis/star-go compare
 		```
 		
 ## License

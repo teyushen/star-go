@@ -5,12 +5,12 @@ import (
 	"io/ioutil"
 	"encoding/json"
 	"fmt"
-	"github.com/teyushen/star-go/arrays"
 	"log"
 	"strings"
+	"github.com/teyushen/star-go/arrays"
 )
 
-func GetRepoInfo(u User, url string) []RepoInformation {
+func GetRepoInfo(u User, url string) RepoInformation {
 
 	resp := request("GET", u.Token, url)
 
@@ -20,7 +20,7 @@ func GetRepoInfo(u User, url string) []RepoInformation {
 		fmt.Println(string(bodyText), "Token: ", u.Token)
 	}
 
-	reposInfo := make([]RepoInformation, 0)
+	reposInfo := RepoInformation{}
 	json.Unmarshal(bodyText, &reposInfo)
 
 	return reposInfo
@@ -29,13 +29,13 @@ func GetRepoInfo(u User, url string) []RepoInformation {
 func CollectAllReposInfo(u User, urls ...string) []RepoInformation {
 
 	reposInfo := make([]RepoInformation, 0)
-	ch := make(chan []RepoInformation)
+	ch := make(chan RepoInformation)
 
 	for _, url := range urls {
 		go func() {
 			ch <- GetRepoInfo(u, url)
 		}()
-		reposInfo = append(reposInfo, <- ch...)
+		reposInfo = append(reposInfo, <- ch)
 	}
 
 	return reposInfo
@@ -47,7 +47,11 @@ func PrepareReposInfo(number int) []RepoInformation{
 
 	arr := make([]string, 0)
 	for _, repo := range repos {
-		arr = append(arr, "https://api.github.com/users/" + repo.Owner + "/repos")
+		//arr = append(arr, "https://api.github.com/users/" + repo.Owner + "/repos")
+		//arr = append(arr, "https://api.github.com/orgs/" + repo.Owner + "/repos")
+		for _, repoName := range repo.RepoNames {
+			arr = append(arr, "https://api.github.com/repos/" + repo.Owner + "/" + repoName)
+		}
 	}
 
 	log.Println(arr)
@@ -66,7 +70,7 @@ func PrepareReposInfo(number int) []RepoInformation{
 
 		}
 	}
-	return compareReposInfo
+	return reposInfo
 }
 
 type byStar []RepoInformation
