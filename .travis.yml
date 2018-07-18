@@ -3,6 +3,8 @@ language: go
 go:
   - "1.10.x"
 
+before_install: mkdir .star-go
+
 script: go test ./...
 notifications:
   email: false
