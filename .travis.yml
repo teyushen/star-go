@@ -3,7 +3,7 @@ language: go
 go:
   - "1.10.x"
 
-before_install: mkdir .star-go
+before_install: mkdir -p ~/.star-go
 
 script: go test ./...
 notifications:
