@@ -5,9 +5,8 @@ import (
 	"io/ioutil"
 	"encoding/json"
 	"fmt"
-	"log"
 	"strings"
-	"github.com/teyushen/star-go/arrays"
+	"log"
 )
 
 func GetRepoInfo(u User, url string) RepoInformation {
@@ -58,19 +57,19 @@ func PrepareReposInfo(number int) []RepoInformation{
 	if len(arr) == 0 {
 		fmt.Println("Can not find any match repository")
 	}
-
-	reposInfo := CollectAllReposInfo(u, arr...)
-	compareReposInfo := make([]RepoInformation, 0)
-	for _, repo := range repos {
-		for _, repoInfo := range reposInfo {
-			//log.Println(repo.Owner, repoInfo.Owner.Login, arrays.Contains(repo.RepoNames, repoInfo.Name))
-			if repo.Owner == repoInfo.Owner.Login && arrays.Contains(repo.RepoNames, repoInfo.Name) {
-				compareReposInfo = append(compareReposInfo, repoInfo)
-			}
-
-		}
-	}
-	return reposInfo
+	//
+	//reposInfo := CollectAllReposInfo(u, arr...)
+	//compareReposInfo := make([]RepoInformation, 0)
+	//for _, repo := range repos {
+	//	for _, repoInfo := range reposInfo {
+	//		//log.Println(repo.Owner, repoInfo.Owner.Login, arrays.Contains(repo.RepoNames, repoInfo.Name))
+	//		if repo.Owner == repoInfo.Owner.Login && arrays.Contains(repo.RepoNames, repoInfo.Name) {
+	//			compareReposInfo = append(compareReposInfo, repoInfo)
+	//		}
+	//
+	//	}
+	//}
+	return CollectAllReposInfo(u, arr...)
 }
 
 type byStar []RepoInformation

@@ -65,6 +65,7 @@ This project can easily help us focus on projects we are interested, and can als
 	
 ## Use with Docker
 
+
 1. Create a directory
 
 	- Linux or Mac
@@ -72,6 +73,12 @@ This project can easily help us focus on projects we are interested, and can als
 		```
 		$ mkdir -p ~/.star-go
 		```
+		
+	- Windows
+
+		```
+		$ mkdir C:\.star-go
+		```	
 
 2. Initial the star-go
 	
@@ -85,6 +92,16 @@ This project can easily help us focus on projects we are interested, and can als
 		> `docker run -it -v ~/.star-go:/root/.star-go --rm sldennis/star-go init 3061ba66c81c7590e3b2a3bd3055fece429fb531
 `
 
+	- Windows
+	
+		```
+		$ docker run -it -v C:/.star-go:/root/.star-go --rm sldennis/star-go init <token>
+		```
+	
+		> e.g. 
+		> `docker run -it -v C:/.star-go:/root/.star-go --rm sldennis/star-go init 3061ba66c81c7590e3b2a3bd3055fece429fb531
+`
+
 3. Add you interesting github repositories
 
 	- Linux or Mac
@@ -96,12 +113,26 @@ This project can easily help us focus on projects we are interested, and can als
 		> e.g.
 		> `docker run -it -v ~/.star-go:/root/.star-go --rm sldennis/star-go focus teyushen/star-go teyushen/dockerfile golang/go`
 	
+	- Windows
+
+		```
+		$ docker run -it -v C:/.star-go:/root/.star-go --rm sldennis/star-go focus <owner/repository>...
+		```
+	
+		> e.g.
+		> `docker run -it -v C:/.star-go:/root/.star-go --rm sldennis/star-go focus teyushen/star-go teyushen/dockerfile golang/go`		
 4. Order the numbers of size of repositories you are interested
 
 	- Linux or Mac
 	
 		```
 		$ docker run -it -v ~/.star-go:/root/.star-go --rm sldennis/star-go compare
+		```
+		
+	- Windows
+
+		```
+		$ docker run -it -v C:/.star-go:/root/.star-go --rm sldennis/star-go compare
 		```
 		
 ## Authors
