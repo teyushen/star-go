@@ -7,8 +7,10 @@ import (
 	"github.com/teyushen/star-go/arrays"
 	"os/user"
 	"strconv"
+	"os"
 )
 
+const basePath  = "/.star-go"
 var usr, _ = user.Current()
 
 
@@ -21,13 +23,19 @@ type RepoConfig struct {
 	RepoNames []string
 }
 
+func CheckAndCreatePath() {
+	if _, err := os.Stat(usr.HomeDir + basePath); os.IsNotExist(err) {
+		os.Mkdir(usr.HomeDir + basePath, os.ModePerm)
+	}
+}
+
 func SaveUser(u User) {
-	writeToConfig(usr.HomeDir + "/.star-go/.star-go-config", u)
+	writeToConfig(usr.HomeDir + basePath + "/.star-go-config", u)
 }
 
 func GetUser() User {
 
-	content, err := ioutil.ReadFile(usr.HomeDir + "/.star-go/.star-go-config")
+	content, err := ioutil.ReadFile(usr.HomeDir + basePath + "/.star-go-config")
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -35,7 +43,7 @@ func GetUser() User {
 	user := User{}
 	json.Unmarshal(content, &user)
 
-	log.Printf("Filename: [%s/.star-go/.star-go-config] -> %s", usr.HomeDir, user)
+	log.Printf("Filename: [%s/.star-go-config] -> %s", usr.HomeDir + basePath, user)
 
 	return user
 }
@@ -49,7 +57,7 @@ func SaveRepos(repos []RepoConfig, number int) {
 			repoConfigs = append(repoConfigs, repo)
 		}
 	}
-	writeToConfig(usr.HomeDir + "/.star-go/.watching" + strconv.Itoa(number), repoConfigs)
+	writeToConfig(usr.HomeDir + basePath + "/.watching" + strconv.Itoa(number), repoConfigs)
 }
 
 func mergeRepo(existRepos []RepoConfig, repo RepoConfig) bool {
@@ -82,7 +90,7 @@ func AppendRepos(number int, repos ...RepoConfig) []RepoConfig {
 
 func GetRepos(number int) []RepoConfig {
 
-	content, err := ioutil.ReadFile(usr.HomeDir + "/.star-go/.watching" + strconv.Itoa(number))
+	content, err := ioutil.ReadFile(usr.HomeDir + basePath + "/.watching" + strconv.Itoa(number))
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -90,7 +98,7 @@ func GetRepos(number int) []RepoConfig {
 	repos := make([]RepoConfig, 0)
 	json.Unmarshal(content, &repos)
 
-	log.Printf("Filename: [%s/.star-go/.watching%d] -> %s", usr.HomeDir, number, content)
+	log.Printf("Filename: [%s/.watching%d] -> %s", usr.HomeDir + basePath, number, content)
 
 	return repos
 }

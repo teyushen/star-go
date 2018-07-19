@@ -6,6 +6,7 @@ import (
 )
 
 func TestMain(m *testing.M) {
+	CheckAndCreatePath()
 	retCode := m.Run()
 	os.Exit(retCode)
 }

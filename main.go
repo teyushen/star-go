@@ -1,9 +1,9 @@
 package main
 
 import (
-	"github.com/teyushen/star-go/cmd"
 	"log"
 	"io/ioutil"
+	"github.com/teyushen/star-go/cmd"
 )
 
 func init() {
@@ -13,7 +13,6 @@ func init() {
 
 
 func main() {
-
 	cmd.Cli()
 
 }

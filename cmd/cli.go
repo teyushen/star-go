@@ -36,6 +36,7 @@ func Cli() {
 						token := c.Args().First()
 						fmt.Println("Your Github token is: ", c.Args().First())
 						user := app.User{token}
+						app.CheckAndCreatePath()
 						app.SaveUser(user)
 						app.StarOnMe(user, StarGoUrl)
 					} else if c.NArg() < 1 {

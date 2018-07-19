@@ -5,9 +5,9 @@
 
 ## Features
 
-Sometimes we want to trace Github Projects we are interesed. And we always want to know how many ⭐️  they get now.
+Sometimes we want to trace Github Projects we are interesed. And we always want to know how many numbers of ⭐️ they get now.
 
-This project can easily help us focus projects we are interested, and can also help us order these projects by ⭐️ size.
+This project can easily help us focus on projects we are interested, and can also help us order these projects by numbers of ⭐️.
 
 
 ## Demo
