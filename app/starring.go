@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"strings"
 	"log"
+	"sync"
 )
 
 func GetRepoInfo(u User, url string) RepoInformation {
@@ -26,17 +27,21 @@ func GetRepoInfo(u User, url string) RepoInformation {
 }
 
 func CollectAllReposInfo(u User, urls ...string) []RepoInformation {
-
 	reposInfo := make([]RepoInformation, 0)
-	ch := make(chan RepoInformation)
-
+	ch := make(chan RepoInformation, len(urls))
+	var wg sync.WaitGroup
 	for _, url := range urls {
-		go func() {
+		wg.Add(1)
+		go func(url string) {
+			defer wg.Done()
 			ch <- GetRepoInfo(u, url)
-		}()
-		reposInfo = append(reposInfo, <- ch)
+		}(url)
 	}
-
+	wg.Wait()
+	close(ch)
+	for r := range ch {
+		reposInfo = append(reposInfo, r)
+	}
 	return reposInfo
 }
 
